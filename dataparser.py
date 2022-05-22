@@ -1,6 +1,3 @@
-from logging import handlers
-
-
 comm_types = {
     "conn": [
         "req",
