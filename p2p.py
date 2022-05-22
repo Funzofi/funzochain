@@ -1,5 +1,5 @@
 from imports import *
-import dataparser
+import connection_handler
 
 class p2pInterface:
     def __init__(self):
@@ -31,5 +31,5 @@ class p2pInterface:
                 if sock == self.open_port:
                     sock, addr = self.open_port.accept()
                 data = sock.recv(8)
-                class_, type = dataparser.parse_data(data)
-                dataparser.handlers[class_].getattr(type)(self, sock)
+                class_, type = connection_handler.parse_data(data)
+                connection_handler.handlers[class_].getattr(type)(self, sock)
