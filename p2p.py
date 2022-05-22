@@ -1,4 +1,5 @@
 from imports import *
+import dataparser
 
 class p2pInterface:
     def __init__(self):
@@ -28,9 +29,7 @@ class p2pInterface:
         while self.listening:
             for sock,_,_ in select.select([self.peerList[sock] for _,sock in self.peerList].append(self.open_port), [], [],1):
                 if sock == self.open_port:
-                    conn, addr = self.open_port.accept()
-                    data = sock.recv(1024)
-                    if data == b"conn:req":
-                        self.addPeer(sock.getpeername())
-                else:
-                    pass #TODO: handle communication
+                    sock, addr = self.open_port.accept()
+                data = sock.recv(8)
+                class_, type = dataparser.parse_data(data)
+                dataparser.handlers[class_].getattr(type)(self, sock)
