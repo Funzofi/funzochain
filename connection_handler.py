@@ -1,6 +1,3 @@
-from socket import socket
-
-
 comm_types = {
     "conn": [
         "req",
