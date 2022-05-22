@@ -1,3 +1,6 @@
+from socket import socket
+
+
 comm_types = {
     "conn": [
         "req",
@@ -28,32 +31,32 @@ def parse_data(data):
 
 class connection_handler():
     def req(self, peer):
+        self.addPeer(peer.getpeername())
+
+    def ack(self, peer):
+        peer.send(b"conn:ack")
+
+    def drp(self, peer):
+        self.removePeer(peer.getpeername())
+
+class block_handler():
+    def new(self, peer):
+        pass
+
+    def req(self, peer):
         pass
 
     def ack(self, peer):
         pass
 
-    def drp(self, peer):
-        pass
-
-class block_handler():
-    def new(self, peer, block):
-        pass
-
-    def req(self, peer, block):
-        pass
-
-    def ack(self, peer, block):
-        pass
-
 class transaction_handler():
-    def new(self, peer, transaction):
+    def new(self, peer):
         pass
 
-    def req(self, peer, transaction):
+    def req(self, peer):
         pass
 
-    def ack(self, peer, transaction):
+    def ack(self, peer):
         pass
 
 handlers = {
