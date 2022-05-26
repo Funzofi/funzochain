@@ -13,6 +13,10 @@ comm_types = {
         "new",
         "req",
         "ack",
+    ],
+    "data": [
+        "syn",
+        "int",
     ]
 }
 
