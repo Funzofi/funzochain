@@ -20,3 +20,10 @@ class block(object):
         block = self.__class__()
         block.__dict__ = pickle.loads(data)
         return block
+
+class LogBlock(block):
+    def __init__(self, node, msg):
+        self.creator = node.address
+        self.message = msg
+        self.timestamp = time.time()
+        self.hash = self.calculate_hash()
