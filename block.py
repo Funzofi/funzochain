@@ -5,7 +5,7 @@ class block(object):
         self.creator = node.address
         self.data = data
         self.timestamp = time.time()
-        self.seed = node.seed
+        self.seed = seed
         self.validators = validators
         self.hash = self.calculate_hash()
 
