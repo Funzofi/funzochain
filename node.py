@@ -22,3 +22,6 @@ class node():
         block = LogBlock(self, "Gan initialized")
         self.p2pInterface.broadcast("blck:new".encode())
         self.p2pInterface.broadcast(block.serialised)
+
+    def run(self):
+        self.p2pInterface.listen(self.host)
