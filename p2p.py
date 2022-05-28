@@ -54,10 +54,10 @@ class p2pInterface:
                         return
                     progress += 1
 
-    def listen(self, port):
+    def listen(self, host):
         self.listening = True
         self.open_port = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.open_port.bind(('', port))
+        self.open_port.bind(host)
         self.open_port.listen(5)
         while self.listening:
             for sock,_,_ in select.select([self.peerList[sock] for _,sock in self.peerList].append(self.open_port), [], [],1):
