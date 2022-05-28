@@ -5,8 +5,9 @@ from imports import *
 import connection_handler
 
 class p2pInterface:
-    def __init__(self):
+    def __init__(self, node):
         self.peerList = {}
+        self.node = node
 
     def addPeer(self, peer, ping=True):
         if peer not in self.peerList.keys():

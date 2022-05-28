@@ -8,7 +8,7 @@ class node():
         self.private_key = private_key
         self.chainfile = f"{name}.chf"
         self.chain = []
-        self.p2pInterface = p2pInterface()
+        self.p2pInterface = p2pInterface(self)
 
     def initialize_gan(self):
         self.gan = Gan(self.host, self.private_key)
