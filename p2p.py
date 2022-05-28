@@ -11,8 +11,7 @@ class p2pInterface:
         if peer not in self.peerList.keys():
             self.peerList[peer] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.peerList[peer].connect(peer)
-            if self.listening:
-                self.peerList[peer].send(b"conn:req")
+            self.peerList[peer].send(b"conn:req")
             return True
 
     def removePeer(self, peer):
