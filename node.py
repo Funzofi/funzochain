@@ -1,5 +1,5 @@
 from gan import Gan
-from block import Block, LogBlock
+from block import LogBlock
 from p2p import p2pInterface
 
 class node():
