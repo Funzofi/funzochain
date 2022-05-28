@@ -1,6 +1,6 @@
 from imports import *
 
-class block(object):
+class Block(object):
     def __init__(self, node, data, seed=b"", validators=[]):
         self.creator = node.address
         self.data = data
@@ -21,7 +21,7 @@ class block(object):
         block.__dict__ = pickle.loads(data)
         return block
 
-class LogBlock(block):
+class LogBlock(Block):
     def __init__(self, node, msg):
         self.creator = node.address
         self.message = msg
