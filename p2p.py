@@ -60,7 +60,11 @@ class p2pInterface:
         self.open_port.bind(host)
         self.open_port.listen(5)
         while self.listening:
-            for sock,_,_ in select.select([self.peerList[sock] for _,sock in self.peerList].append(self.open_port), [], [],1):
+            read_sockets = []
+            read_sockets.append(self.open_port)
+            for peer in self.peerList.values():
+                read_sockets.append(peer)
+            for sock,_,_ in select.select(read_sockets, [], [])[1]:
                 if sock == self.open_port:
                     sock, addr = self.open_port.accept()
                 data = sock.recv(8)
