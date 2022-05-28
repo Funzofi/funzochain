@@ -66,9 +66,13 @@ class p2pInterface:
             read_sockets.append(self.open_port)
             for peer in self.peerList.values():
                 read_sockets.append(peer)
-            for sock,_,_ in select.select(read_sockets, [], [])[1]:
+            for sock in select.select(read_sockets, [], [])[0]:
                 if sock == self.open_port:
                     sock, addr = self.open_port.accept()
                 data = sock.recv(8)
-                class_, type = connection_handler.parse_data(data)
-                connection_handler.handlers[class_].getattr(type)(self, sock)
+                class_, type_ = connection_handler.parse_data(data)
+                data = connection_handler.handlers[class_].getattr(type_)(self, sock)
+                if data:
+                    data_type, data = data
+                    if data_type == "blck":
+                        self.node.chain.append(Block.deserialize(data))
