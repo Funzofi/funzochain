@@ -1,5 +1,6 @@
 import os
 from random import shuffle
+from block import Block
 from imports import *
 import connection_handler
 
