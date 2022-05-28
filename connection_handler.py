@@ -42,7 +42,9 @@ class connection_handler():
 
 class block_handler():
     def new(self, peer):
-        pass
+        data_lenght = peer.recv(5)
+        data = peer.recv(int(data_lenght))
+        return "blck", data
 
     def req(self, peer):
         pass
