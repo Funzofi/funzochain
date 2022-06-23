@@ -21,7 +21,7 @@ comm_types = {
 }
 
 def parse_data(data):
-    data = data.split(":")
+    data = data.decode().split(":")
     if data[0] in comm_types.keys():
         if data[1] in comm_types[data[0]]:
             return data[0], data[1]
@@ -32,7 +32,9 @@ def parse_data(data):
 
 class connection_handler():
     def req(self, peer):
-        self.addPeer(peer.getpeername())
+        remote_host = peer.recv(64).decode().split(":")
+        remote_host = (remote_host[0],int(remote_host[1]))
+        self.addPeer(remote_host,False)
 
     def ack(self, peer):
         peer.send(b"conn:ack")
