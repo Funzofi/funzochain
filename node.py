@@ -24,4 +24,4 @@ class node():
         self.p2pInterface.broadcast(block.serialised)
 
     def run(self):
-        self.p2pInterface.listen(self.host)
+        self.p2pInterface.listen()
