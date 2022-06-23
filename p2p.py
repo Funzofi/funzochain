@@ -13,7 +13,9 @@ class p2pInterface:
         if peer not in self.peerList.keys():
             self.peerList[peer] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.peerList[peer].connect(peer)
-            self.peerList[peer].send(b"conn:req")
+            if ping:
+                self.peerList[peer].send(b"conn:req")
+                self.peerList[peer].send(f"{self.node.host[0]}:{self.node.host[1]}".encode())
             return True
 
     def removePeer(self, peer):
@@ -56,10 +58,10 @@ class p2pInterface:
                         return
                     progress += 1
 
-    def listen(self, host):
+    def listen(self):
         self.listening = True
         self.open_port = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.open_port.bind(host)
+        self.open_port.bind(self.node.host)
         self.open_port.listen(5)
         while self.listening:
             read_sockets = []
@@ -70,9 +72,10 @@ class p2pInterface:
                 if sock == self.open_port:
                     sock, addr = self.open_port.accept()
                 data = sock.recv(8)
-                class_, type_ = connection_handler.parse_data(data)
-                data = connection_handler.handlers[class_].getattr(type_)(self, sock)
-                if data:
-                    data_type, data = data
-                    if data_type == "blck":
-                        self.node.chain.append(Block.deserialize(data))
+                if len(data) == 8:
+                    class_, type_ = connection_handler.parse_data(data)
+                    data = getattr(connection_handler.handlers[class_],type_)(self, sock)
+                    if data:
+                        data_type, data = data
+                        if data_type == "blck":
+                            self.node.chain.append(Block.deserialize(data))
