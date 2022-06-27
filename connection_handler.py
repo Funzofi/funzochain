@@ -17,6 +17,9 @@ comm_types = {
     "data": [
         "syn",
         "int",
+    ],
+    "seed": [
+        "scr"
     ]
 }
 
@@ -63,6 +66,14 @@ class transaction_handler():
 
     def ack(self, peer):
         pass
+
+class seed_handler():
+    def scr(self, peer):
+        seed = peer.recv(512)
+        peer.send(self.score_seed(seed))
+
+    def score_seed(self, seed):
+        return "0"
 
 handlers = {
     "conn": connection_handler,
