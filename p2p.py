@@ -78,4 +78,5 @@ class p2pInterface:
                     if data:
                         data_type, data = data
                         if data_type == "blck":
-                            self.node.chain.append(Block.deserialize(data))
+                            if Block.valid(Block.deserialize(data)):
+                                self.node.chain.append(Block.deserialize(data))
