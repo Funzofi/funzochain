@@ -2,7 +2,7 @@ import os
 from random import shuffle
 from block import Block
 from imports import *
-import connection_handler
+import network_handler
 
 class p2pInterface:
     def __init__(self, node):
@@ -73,8 +73,8 @@ class p2pInterface:
                     sock, addr = self.open_port.accept()
                 data = sock.recv(8)
                 if len(data) == 8:
-                    class_, type_ = connection_handler.parse_data(data)
-                    data = getattr(connection_handler.handlers[class_],type_)(self, sock)
+                    class_, type_ = network_handler.parse_data(data)
+                    data = getattr(network_handler.handlers[class_],type_)(self, sock)
                     if data:
                         data_type, data = data
                         if data_type == "blck":
