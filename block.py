@@ -19,7 +19,10 @@ class Block(object):
         return True
 
     def calculate_hash(self):
-        return hashlib.sha256(self.serialised).hexdigest()
+        data = self.__dict__
+        if "hash" in data.keys():
+            del data["hash"]
+        return hashlib.sha256(pickle.dumps(data)).hexdigest()
 
     @property
     def serialised(self):
