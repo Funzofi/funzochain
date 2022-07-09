@@ -9,11 +9,11 @@ class Block(object):
         self.validators = validators
         self.hash = self.calculate_hash()
 
-    def valid(self, block):
-        if block.hash != block.calculate_hash():
+    def valid(self):
+        if self.hash != self.calculate_hash():
             return False
         try:
-            rsa.decrypt(block.seed, block.creator)
+            rsa.decrypt(self.seed, self.creator)
         except:
             return False
         return True
