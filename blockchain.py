@@ -3,10 +3,11 @@ from block import Block
 import json
 
 class Blockchain(list):
-    def __init__(self, mainfile):
+    def __init__(self, mainfile, p2pInterface):
         self.chain = list()
         self.index = dict()
         self.mainfile = mainfile
+        self.p2pInterface = p2pInterface
         self.load()
 
     def __getitem__(self, key):
