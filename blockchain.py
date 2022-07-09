@@ -16,8 +16,6 @@ class Blockchain(list):
         if isinstance(item, Block):
             if item.hash in self.index:
                 raise ValueError("Block already exists")
-            if not item.valid():
-                raise ValueError("Block is not valid")
             self.index[item.calculate_hash()] = len(self.chain)
             self.chain.append(item)
             self.save()
