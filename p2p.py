@@ -58,7 +58,7 @@ class p2pInterface:
                         return
                     progress += 1
 
-    def listen(self):
+    def listen(self, queue):
         self.listening = True
         self.open_port = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.open_port.bind(self.node.host)
@@ -76,7 +76,4 @@ class p2pInterface:
                     class_, type_ = network_handler.parse_data(data)
                     data = getattr(network_handler.handlers[class_],type_)(self, sock)
                     if data:
-                        data_type, data = data
-                        if data_type == "blck":
-                            if Block.valid(Block.deserialize(data)):
-                                self.node.chain.append(Block.deserialize(data))
+                        queue.put(data)
