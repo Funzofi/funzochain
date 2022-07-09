@@ -19,6 +19,12 @@ class Blockchain(list):
             self.index[item.calculate_hash()] = len(self.chain)
             self.chain.append(item)
             self.save()
+            block_data = item.serialised
+            self.p2pInterface.broadcast([
+                "blck:new",
+                f'{len(block_data):05d}'.encode(),
+                block_data
+            ])
         else:
             raise TypeError("Blockchain can only append blocks")
 
