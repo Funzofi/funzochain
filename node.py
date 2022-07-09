@@ -26,13 +26,16 @@ class node():
         self.p2pInterface.broadcast("blck:new".encode())
         self.p2pInterface.broadcast(block.serialised)
 
-    def run(self, runtime=function()):
+    def runtime(first_run=True):
+        pass
+
+    def run(self):
         data_queue = Queue.Queue()
         thread = threading.Thread(target=self.p2pInterface.listen, args=(data_queue,))
         thread.start()
         first_run = True
         while True:
-            runtime(first_run)
+            self.runtime(first_run)
             first_run = False
             try:
                 data_type, data = data_queue.get(timeout=1)
