@@ -8,7 +8,7 @@ class Transaction(object):
         self.amount = amount
         self.timestamp = time.time()
         self.signature = signature
-        self.node = node
+        self.node = node.address
 
     def valid(self, transaction):
         if Signature().verify(transaction.calculate_id(), transaction.signature, transaction.sender):
