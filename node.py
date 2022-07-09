@@ -1,13 +1,13 @@
 from gan import Gan
 from block import LogBlock
 from p2p import p2pInterface
+from blockchain import Blockchain
 
 class node():
     def __init__(self, private_key, host, name="chain"):
         self.host = host
         self.private_key = private_key
-        self.chainfile = f"{name}.chf"
-        self.chain = []
+        self.chain = Blockchain(name)
         self.p2pInterface = p2pInterface(self)
 
     def initialize_gan(self):
