@@ -30,7 +30,6 @@ class Blockchain(list):
                 f.write(self.chain[50].calculate_hash().encode())
                 
         self.currfile = self.mainfile
-        self.save()
 
     def load(self):
         self.currfile = self.mainfile
