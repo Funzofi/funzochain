@@ -48,9 +48,13 @@ class Blockchain(list):
                         break
             except:
                 break
-        with open(self.currfile, "rb") as f:
-            data = f.read()
-            self.chain = json.loads(data)
+        try:
+            with open(self.currfile, "rb") as f:
+                data = f.read()
+                self.chain = json.loads(data)
+        except:
+            self.chain = list()
+            
 
     def __setitem__(self, key, value):
         raise IndexError("Cannot set in blockchain")
