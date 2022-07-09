@@ -23,7 +23,7 @@ class p2pInterface:
         del self.peerList[peer]
 
     def broadcast(self, message):
-        for _,sock in self.peerList:
+        for sock in self.peerList.values():
             sock.send(message)
 
     def sync_chain(self, node):
