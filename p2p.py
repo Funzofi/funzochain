@@ -24,7 +24,13 @@ class p2pInterface:
 
     def broadcast(self, message):
         for sock in self.peerList.values():
-            sock.send(message) if type(message) == str else (sock.send(m) for m in message) if type(message) == list else None
+            print(sock.getpeername())
+            if type(message) == bytes:
+                sock.send(message)
+            elif type(message) == list:
+                for m in message:
+                    print(m, flush=True)
+                    sock.send(m)
 
     def sync_chain(self, node):
         shuffled_nodes = list(self.peerList.keys())
