@@ -41,5 +41,15 @@ class node():
             if data_queue.qsize() > 0:
                 data_type, data = data_queue.get(timeout=1)
                 if data_type == "blck":
-                    if Block.valid(Block.deserialize(data)):
-                        self.node.chain.append(Block.deserialize(data))
+                    print("Received Block Data")
+                    block = Block(self,"").deserialised(data)
+                    if block.valid():
+                        try:
+                            self.node.chain.append(block)
+                            print(f"Block {block.hash[:6]} added to chain")
+                            self.p2pInterface.broadcast()
+                            print(f"Block {block.hash[:6]} broadcasted")
+                        except ValueError as e:
+                            print(e)
+                    else:
+                        print(f"Block {block.hash[:6]} invalid")
