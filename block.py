@@ -19,7 +19,7 @@ class Block(object):
         return True
 
     def calculate_hash(self):
-        data = self.__dict__
+        data = copy.deepcopy(self.__dict__)
         if "hash" in data.keys():
             del data["hash"]
         return hashlib.sha256(pickle.dumps(data)).hexdigest()
