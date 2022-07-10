@@ -4,3 +4,4 @@ import pickle
 import socket
 import select
 import rsa
+import copy
