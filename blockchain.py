@@ -34,9 +34,10 @@ class Blockchain(list):
             for item in self.chain[:50]:
                 f.write(item.serialised)
                 f.write("\n".encode())
-            if len(self.chain[:50]) == 50:
+            if len(self.chain) >= 50:
                 f.write("\n\n".encode())
-                f.write(self.chain[50].calculate_hash().encode())
+                f.write(self.chain[49].calculate_hash().encode())
+                self.load()
                 
         self.currfile = self.mainfile
 
