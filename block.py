@@ -29,7 +29,7 @@ class Block(object):
         return pickle.dumps(self.__dict__)
 
     def deserialised(self, data):
-        block = self.__class__()
+        block = self
         block.__dict__ = pickle.loads(data)
         return block
 
