@@ -22,7 +22,7 @@ class Blockchain(list):
             self.save()
             block_data = item.serialised
             self.p2pInterface.broadcast([
-                "blck:new",
+                b"blck:new",
                 f'{len(block_data):05d}'.encode(),
                 block_data
             ])
