@@ -11,8 +11,9 @@ class p2pInterface:
 
     def addPeer(self, peer, ping=True):
         if peer not in self.peerList.keys():
-            self.peerList[peer] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.peerList[peer].connect(peer)
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.connect(peer)
+            self.peerList[sock.getpeername()] = sock
             if ping:
                 self.peerList[peer].send(b"conn:req")
                 self.peerList[peer].send(f"{self.node.host[0]}:{self.node.host[1]}".encode())
@@ -24,13 +25,18 @@ class p2pInterface:
 
     def broadcast(self, message):
         for sock in self.peerList.values():
-            print(sock.getpeername())
-            if type(message) == bytes:
-                sock.send(message)
-            elif type(message) == list:
-                for m in message:
-                    print(m, flush=True)
-                    sock.send(m)
+            try:
+                if type(message) == bytes:
+                    sock.send(message)
+                elif type(message) == list:
+                    for m in message:
+                        sock.send(m)
+            except ConnectionResetError:
+                print(f"Peer {sock.getpeername()} Disconnected", flush=True)
+                self.removePeer(sock.getpeername())
+            except OSError:
+                print(f"Peer {sock.getpeername()} Disconnected", flush=True)
+                self.removePeer(sock.getpeername())
 
     def sync_chain(self, node):
         shuffled_nodes = list(self.peerList.keys())
@@ -69,17 +75,23 @@ class p2pInterface:
         self.open_port = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.open_port.bind(self.node.host)
         self.open_port.listen(5)
+        print("Node Online And Listening", flush=True)
         while self.listening:
             read_sockets = []
             read_sockets.append(self.open_port)
             for peer in self.peerList.values():
                 read_sockets.append(peer)
             for sock in select.select(read_sockets, [], [])[0]:
-                if sock == self.open_port:
-                    sock, addr = self.open_port.accept()
-                data = sock.recv(8)
-                if len(data) == 8:
-                    class_, type_ = network_handler.parse_data(data)
-                    data = getattr(network_handler.handlers[class_],type_)(self, sock)
-                    if data:
-                        queue.put(data)
+                try:
+                    if sock == self.open_port:
+                        sock, addr = self.open_port.accept()
+                        print("Connected to", addr, flush=True)
+                    data = sock.recv(8)
+                    if len(data) == 8:
+                        class_, type_ = network_handler.parse_data(data)
+                        data = getattr(network_handler.handlers[class_],type_)(self, sock)
+                        if data:
+                            queue.put(data)
+                except ConnectionResetError:
+                    print(f"Peer {sock.getpeername()} Disconnected", flush=True)
+                    self.removePeer(sock.getpeername())

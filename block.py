@@ -26,6 +26,7 @@ class Block(object):
 
     @property
     def serialised(self):
+        print(pickle.loads(pickle.dumps(self.__dict__)))
         return pickle.dumps(self.__dict__)
 
     def deserialised(self, data):

@@ -59,7 +59,9 @@ class block_handler():
 
 class transaction_handler():
     def new(self, peer):
-        pass
+        data_lenght = peer.recv(5)
+        data = peer.recv(int(data_lenght))
+        return "trnx", data
 
     def req(self, peer):
         pass
