@@ -49,21 +49,24 @@ class Blockchain(list):
 
     def load(self):
         self.currfile = self.mainfile
+        self.index = dict()
         while True:
             try:
+                chain_lenght = 0
                 with open(self.currfile, "rb") as f:
+                    for line in f.readlines():
+                        if line != b"\n":
+                            block = Block(self, "").deserialised(line)
+                            self.index[block.hash] = chain_lenght
+                            chain_lenght += 1
+                            self.chain.append(block)
                     if f.readline()[-2] == f.readline()[-3] == b"\n":
+                        print(f.readline[-1])
                         self.currfile = f.readline()[-1].decode()
                     else:
                         break
             except:
                 break
-        try:
-            with open(self.currfile, "rb") as f:
-                data = f.read()
-                self.chain = json.loads(data)
-        except:
-            self.chain = list()
             
 
     def __setitem__(self, key, value):
