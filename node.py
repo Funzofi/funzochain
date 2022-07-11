@@ -4,6 +4,7 @@ from block import Block, LogBlock
 from p2p import p2pInterface
 from blockchain import Blockchain
 import threading
+import sys
 
 class node():
     def __init__(self, private_key, host, name="chain"):
@@ -31,23 +32,27 @@ class node():
         pass
 
     def run(self):
-        data_queue = Queue()
-        thread = threading.Thread(target=self.p2pInterface.listen, args=(data_queue,))
-        thread.start()
-        first_run = True
-        while True:
-            self.runtime(first_run)
-            first_run = False
-            if data_queue.qsize() > 0:
-                data_type, data = data_queue.get(timeout=1)
-                if data_type == "blck":
-                    print("Received Block Data")
-                    block = Block(self,"").deserialised(data)
-                    if block.valid():
-                        try:
-                            self.chain.append(block)
-                            print(f"Block {block.hash[:6]} added to chain")
-                        except ValueError as e:
-                            print(e)
-                    else:
-                        print(f"Block {block.hash[:6]} invalid")
+        try:
+            data_queue = Queue()
+            thread = threading.Thread(target=self.p2pInterface.listen, args=(data_queue,), daemon=True)
+            thread.start()
+            first_run = True
+            while True:
+                self.runtime(first_run)
+                first_run = False
+                if data_queue.qsize() > 0:
+                    data_type, data = data_queue.get(timeout=1)
+                    if data_type == "blck":
+                        print("Received Block Data")
+                        block = Block(self,"").deserialised(data)
+                        if not block.valid():
+                            try:
+                                self.chain.append(block)
+                                print(f"Block {block.hash[:6]} added to chain")
+                            except ValueError as e:
+                                print(e)
+                        else:
+                            print(f"Block {block.hash[:6]} invalid")
+        except KeyboardInterrupt as e:
+            print("Shutting down")
+            sys.exit(0)
