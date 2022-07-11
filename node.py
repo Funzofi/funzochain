@@ -47,8 +47,6 @@ class node():
                         try:
                             self.chain.append(block)
                             print(f"Block {block.hash[:6]} added to chain")
-                            self.p2pInterface.broadcast()
-                            print(f"Block {block.hash[:6]} broadcasted")
                         except ValueError as e:
                             print(e)
                     else:
