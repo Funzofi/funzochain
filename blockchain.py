@@ -30,14 +30,20 @@ class Blockchain(list):
             raise TypeError("Blockchain can only append blocks")
 
     def save(self):
-        with open(self.currfile, "wb") as f:
-            for item in self.chain[:50]:
-                f.write(item.serialised)
-                f.write("\n".encode())
-            if len(self.chain) >= 50:
-                f.write("\n\n".encode())
-                f.write(self.chain[49].calculate_hash().encode())
-                self.load()
+        block_index = 0
+        for iter_ in range(len(self.chain)):
+            with open(self.currfile, "wb") as f:
+                print(self.currfile)
+                for item in self.chain[block_index:50]:
+                    f.write(item.serialised)
+                    f.write("\n".encode())
+                if len(self.chain) > 50*(iter_+1):
+                    f.write("\n\n".encode())
+                    print(50*(iter_+1))
+                    print((iter_+1)*50)
+                    self.currfile = self.chain[(iter_+1)*50].calculate_hash()
+                    f.write(self.currfile.encode())
+        self.load()
                 
         self.currfile = self.mainfile
 
