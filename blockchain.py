@@ -10,6 +10,7 @@ class Blockchain(list):
         self.mainfile = mainfile
         self.p2pInterface = p2pInterface
         self.load()
+        print(self.chain)
 
     def __getitem__(self, key):
         return self.chain[key]
@@ -34,15 +35,18 @@ class Blockchain(list):
     def save(self):
         old_file = self.currfile
         block_index = 0
-        for iter_ in range(len(self.chain)):
+        with open(self.currfile, "r") as f:
+            file_size = len(f.readlines())
+        for iter_ in range(int(len(self.chain)/50)+1):
             with open(self.currfile, "w") as f:
-                for item in self.chain[block_index:50]:
+                for item in self.chain[block_index:(50-file_size)]:
                     f.write(item.serialised)
                     f.write("\n")
                 if len(self.chain) > 50*(iter_+1):
                     f.write("\n\n")
                     self.currfile = self.chain[(iter_+1)*50].calculate_hash()
                     f.write(self.currfile)
+                    file_size = 0
         if old_file != self.currfile:
             self.load()
 
@@ -62,14 +66,17 @@ class Blockchain(list):
                             self.index[block.hash] = chain_lenght
                             chain_lenght += 1
                             self.chain.append(block)
+                        else:
+                            break
                     print(f.readlines())
                     if len(f.readlines()) > 50:
                         self.currfile = f.readline()[-1]
-                    else:
                         break
+                    else:
+                        return
         else:
             print("Bye")
-            open(self.currfile, "wb")
+            open(self.currfile, "w")
             
 
     def __setitem__(self, key, value):
