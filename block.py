@@ -26,11 +26,11 @@ class Block(object):
 
     @property
     def serialised(self):
-        return pickle.dumps(self.__dict__)
+        return pickle.dumps(self.__dict__).hex()
 
     def deserialised(self, data):
         block = self
-        block.__dict__ = pickle.loads(data)
+        block.__dict__ = pickle.loads(bytes.fromhex(data))
         return block
 
 class LogBlock(Block):

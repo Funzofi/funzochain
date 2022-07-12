@@ -24,9 +24,9 @@ class Transaction(object):
     def serialised(self):
         dict_ = self.__dict__
         del dict_["node"]
-        return pickle.dumps(self.__dict__)
+        return pickle.dumps(self.__dict__).hex()
 
     def deserialised(self, data):
         block = self.__class__()
-        block.__dict__ = pickle.loads(data)
+        block.__dict__ = pickle.loads(bytes.fromhex(data))
         return block
