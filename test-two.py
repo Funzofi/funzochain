@@ -11,7 +11,7 @@ def runtime(first_run=True):
     if first_run:
         for _ in range(100):
             transaction = Transaction(node, "0x0", "0x1", 1, "0x0")
-            block = Block(node, [transaction.serialised], "0x1")
+            block = Block(node, [transaction], "0x1")
             node.chain.append(block)
             time.sleep(0.1)
 

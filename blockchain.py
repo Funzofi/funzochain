@@ -26,7 +26,7 @@ class Blockchain(list):
             self.p2pInterface.broadcast([
                 b"blck:new",
                 f'{len(block_data):05d}'.encode(),
-                block_data
+                block_data.encode()
             ])
         else:
             raise TypeError("Blockchain can only append blocks")
@@ -35,14 +35,14 @@ class Blockchain(list):
         old_file = self.currfile
         block_index = 0
         for iter_ in range(len(self.chain)):
-            with open(self.currfile, "wb") as f:
+            with open(self.currfile, "w") as f:
                 for item in self.chain[block_index:50]:
                     f.write(item.serialised)
-                    f.write("\n".encode())
+                    f.write("\n")
                 if len(self.chain) > 50*(iter_+1):
-                    f.write("\n\n".encode())
+                    f.write("\n\n")
                     self.currfile = self.chain[(iter_+1)*50].calculate_hash()
-                    f.write(self.currfile.encode())
+                    f.write(self.currfile)
         if old_file != self.currfile:
             self.load()
 
@@ -53,17 +53,18 @@ class Blockchain(list):
             print("Hi")
             while True:
                 chain_lenght = 0
-                with open(self.currfile, "rb") as f:
+                with open(self.currfile, "r") as f:
                     for line in f.readlines():
-                        if line != b"\n":
+                        if line != "\n":
                             print(line)
                             block = Block(self.node, "").deserialised(line)
-                            print(block)
+                            print(block.__dict__)
                             self.index[block.hash] = chain_lenght
                             chain_lenght += 1
                             self.chain.append(block)
-                    if f.readline()[-2] == f.readline()[-3] == b"\n":
-                        self.currfile = f.readline()[-1].decode()
+                    print(f.readlines())
+                    if len(f.readlines()) > 50:
+                        self.currfile = f.readline()[-1]
                     else:
                         break
         else:
