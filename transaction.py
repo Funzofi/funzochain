@@ -27,6 +27,6 @@ class Transaction(object):
         return pickle.dumps(self.__dict__).hex()
 
     def deserialised(self, data):
-        block = self.__class__()
-        block.__dict__ = pickle.loads(bytes.fromhex(data))
-        return block
+        transaction = self.__class__()
+        transaction.__dict__ = pickle.loads(bytes.fromhex(data))
+        return transaction
