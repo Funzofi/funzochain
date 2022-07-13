@@ -11,8 +11,9 @@ class p2pInterface:
 
     def addPeer(self, peer, ping=True):
         if peer not in self.peerList.keys():
-            self.peerList[peer] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.peerList[peer].connect(peer)
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.connect(peer)
+            self.peerList[sock.getpeername()] = sock
             if ping:
                 self.peerList[peer].send(b"conn:req")
                 self.peerList[peer].send(f"{self.node.host[0]}:{self.node.host[1]}".encode())
