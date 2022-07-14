@@ -35,8 +35,12 @@ def parse_data(data):
 
 class connection_handler():
     def req(self, peer):
-        remote_host = peer.recv(64).decode().split(":")
+        data_lenght = peer.recv(2)
+        remote_host = peer.recv(int(data_lenght)).decode().split(":")
         remote_host = (remote_host[0],int(remote_host[1]))
+        
+        print("Connection request from remote host:: ", remote_host)
+        
         self.addPeer(remote_host,False)
 
     def ack(self, peer):

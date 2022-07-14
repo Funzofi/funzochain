@@ -10,7 +10,7 @@ class Blockchain(list):
         self.mainfile = mainfile
         self.p2pInterface = p2pInterface
         self.load()
-        print(self.chain)
+        # print(self.chain)
 
     def __getitem__(self, key):
         return self.chain[key]

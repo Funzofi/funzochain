@@ -41,6 +41,7 @@ class node():
                 self.runtime(first_run)
                 first_run = False
                 if data_queue.qsize() > 0:
+                    print("Queue size: ", data_queue.qsize());
                     data_type, data = data_queue.get(timeout=1)
                     if data_type == "blck":
                         print("Received Block Data")

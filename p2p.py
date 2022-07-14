@@ -14,9 +14,13 @@ class p2pInterface:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect(peer)
             self.peerList[sock.getpeername()] = sock
+            print("Ping Value:: ", ping)
             if ping:
-                self.peerList[peer].send(b"conn:req")
-                self.peerList[peer].send(f"{self.node.host[0]}:{self.node.host[1]}".encode())
+                print("Sending conn request to:: ", peer)
+                self.peerList[sock.getpeername()].send(b"conn:req")
+                message = f"{self.node.host[0]}:{self.node.host[1]}"
+                self.peerList[sock.getpeername()].send(f"{len(message):02d}".encode())
+                self.peerList[sock.getpeername()].send(message.encode())
             return True
 
     def removePeer(self, peer):
@@ -24,13 +28,20 @@ class p2pInterface:
         del self.peerList[peer]
 
     def broadcast(self, message):
+        
+        print("Broadcasting to :: ", self.peerList.keys())
+        
         for sock in self.peerList.values():
             try:
                 if type(message) == bytes:
                     sock.send(message)
+                    print("Byte Message Sent")
+                    
                 elif type(message) == list:
                     for m in message:
                         sock.send(m)
+                        # print("Message Sent:: ", m)
+                        
             except ConnectionResetError:
                 print(f"Peer {sock.getpeername()} Disconnected", flush=True)
                 self.removePeer(sock.getpeername())
@@ -80,6 +91,7 @@ class p2pInterface:
             read_sockets = []
             read_sockets.append(self.open_port)
             for peer in self.peerList.values():
+                print("peer: ", peer)
                 read_sockets.append(peer)
             for sock in select.select(read_sockets, [], [])[0]:
                 try:
@@ -87,9 +99,14 @@ class p2pInterface:
                         sock, addr = self.open_port.accept()
                         print("Connected to", addr, flush=True)
                     data = sock.recv(8)
+                    print("Raw data from socket:: ", data)
+                    
                     if len(data) == 8:
                         class_, type_ = network_handler.parse_data(data)
                         data = getattr(network_handler.handlers[class_],type_)(self, sock)
+                        
+                        print("Got data from Socket:: ", data)
+                        
                         if data:
                             queue.put(data)
                 except ConnectionResetError:
