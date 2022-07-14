@@ -12,7 +12,7 @@ class node():
         self.private_key = private_key
         self.address = private_key
         self.p2pInterface = p2pInterface(self)
-        self.chain = Blockchain(name,self.p2pInterface)
+        self.chain = Blockchain(self, name,self.p2pInterface)
 
     def initialize_gan(self):
         self.gan = Gan(self.host, self.private_key)
