@@ -41,11 +41,11 @@ class p2pInterface:
                     for m in message:
                         sock.send(m)
                         # print("Message Sent:: ", m)
-                
+                raddr = sock.getpeername()
                 sock.close()
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                sock.connect(addr)
-                self.peerList[sock.getpeername()] = eval(addr)
+                sock.connect(eval(raddr))
+                self.peerList[raddr] = sock
             except ConnectionResetError:
                 print(f"Peer {sock.getpeername()} Disconnected", flush=True)
                 self.removePeer(sock.getpeername())
