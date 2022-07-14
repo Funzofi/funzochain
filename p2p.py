@@ -46,8 +46,6 @@ class p2pInterface:
                         # print("Message Sent:: ", m)
                 
                 raddr = sock.getpeername()
-                sock.close()
-                sock = -1
                 self.addPeer(raddr, False)
                 print("Peer list: ", self.peerList)
                 # sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
