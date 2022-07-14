@@ -12,6 +12,9 @@ class p2pInterface:
     def addPeer(self, peer, ping=True):
         if peer not in self.peerList.keys():
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            
+            print("Peer:: ", peer)
+            
             sock.connect(peer)
             self.peerList[sock.getpeername()] = sock
             print("Ping Value:: ", ping)
@@ -42,10 +45,16 @@ class p2pInterface:
                         sock.send(m)
                         # print("Message Sent:: ", m)
                 
+                raddr = sock.getpeername()
                 sock.close()
-                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                sock.connect(addr)
-                self.peerList[sock.getpeername()] = eval(addr)
+                sock = -1
+                self.addPeer(raddr, False)
+                print("Peer list: ", self.peerList)
+                # sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                # print("Address of peer: ", raddr, type(raddr))
+                # sock.connect(raddr)
+                # self.peerList[raddr] = sock
+                
             except ConnectionResetError:
                 print(f"Peer {sock.getpeername()} Disconnected", flush=True)
                 self.removePeer(sock.getpeername())
