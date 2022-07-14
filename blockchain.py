@@ -53,7 +53,7 @@ class Blockchain(list):
         self.currfile = self.mainfile
         self.index = dict()
         if os.path.exists(self.currfile):
-            print("Hi")
+            print("Loading blockchain")
             while True:
                 chain_lenght = 0
                 with open(self.currfile, "r") as f:
@@ -74,7 +74,7 @@ class Blockchain(list):
                     else:
                         return
         else:
-            print("Bye")
+            print("Started A New Chain")
             open(self.currfile, "w")
             
 
