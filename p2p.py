@@ -31,7 +31,7 @@ class p2pInterface:
         
         print("Broadcasting to :: ", self.peerList.keys())
         
-        for sock in self.peerList.values():
+        for addr, sock in self.peerList.items():
             try:
                 if type(message) == bytes:
                     sock.send(message)
@@ -41,7 +41,11 @@ class p2pInterface:
                     for m in message:
                         sock.send(m)
                         # print("Message Sent:: ", m)
-                        
+                
+                sock.close()
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.connect(addr)
+                self.peerList[sock.getpeername()] = eval(addr)
             except ConnectionResetError:
                 print(f"Peer {sock.getpeername()} Disconnected", flush=True)
                 self.removePeer(sock.getpeername())
