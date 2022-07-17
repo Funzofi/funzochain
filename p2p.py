@@ -15,8 +15,10 @@ class p2pInterface:
             sock.connect(peer)
             self.peerList[sock.getpeername()] = sock
             if ping:
-                self.peerList[peer].send(b"conn:req")
-                self.peerList[peer].send(f"{self.node.host[0]}:{self.node.host[1]}".encode())
+                self.peerList[sock.getpeername()].send(b"conn:req")
+                message = f"{self.node.host[0]}:{self.node.host[1]}"
+                self.peerList[sock.getpeername()].send(f"{len(message):02d}".encode())
+                self.peerList[sock.getpeername()].send(message.encode())
             return True
 
     def removePeer(self, peer):
