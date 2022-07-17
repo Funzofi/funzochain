@@ -27,13 +27,20 @@ class p2pInterface:
 
     def broadcast(self, message):
         for sock in self.peerList.values():
-            print(sock.getpeername())
-            if type(message) == bytes:
-                sock.send(message)
-            elif type(message) == list:
-                for m in message:
-                    print(m, flush=True)
-                    sock.send(m)
+            try:
+                print(sock.getpeername())
+                if type(message) == bytes:
+                    sock.send(message)
+                elif type(message) == list:
+                    for m in message:
+                        print(m, flush=True)
+                        sock.send(m)
+            except ConnectionResetError:
+                    print(f"Peer {sock.getpeername()} Disconnected", flush=True)
+                    self.removePeer(sock.getpeername())
+            except OSError:
+                print(f"Peer {sock.getpeername()} Disconnected", flush=True)
+                self.removePeer(sock.getpeername())
 
     def sync_chain(self, node):
         shuffled_nodes = list(self.peerList.keys())
