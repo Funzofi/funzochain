@@ -85,11 +85,16 @@ class p2pInterface:
             for peer in self.peerList.values():
                 read_sockets.append(peer)
             for sock in select.select(read_sockets, [], [])[0]:
-                if sock == self.open_port:
-                    sock, addr = self.open_port.accept()
-                data = sock.recv(8)
-                if len(data) == 8:
-                    class_, type_ = network_handler.parse_data(data)
-                    data = getattr(network_handler.handlers[class_],type_)(self, sock)
-                    if data:
-                        queue.put(data)
+                try:
+                    if sock == self.open_port:
+                        sock, addr = self.open_port.accept()
+                        print("Connected to", addr, flush=True)
+                    data = sock.recv(8)
+                    if len(data) == 8:
+                        class_, type_ = network_handler.parse_data(data)
+                        data = getattr(network_handler.handlers[class_],type_)(self, sock)
+                        if data:
+                            queue.put(data)
+                except ConnectionResetError:
+                    print(f"Peer {sock.getpeername()} Disconnected", flush=True)
+                    self.removePeer(sock.getpeername())
