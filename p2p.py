@@ -20,21 +20,31 @@ class p2pInterface:
                 self.peerList[sock.getpeername()].send(f"{len(message):02d}".encode())
                 self.peerList[sock.getpeername()].send(message.encode())
             return True
+        else:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.connect(peer)
+            self.peerList[sock.getpeername()] = sock
+
+
 
     def removePeer(self, peer):
         self.peerList[peer].close()
         del self.peerList[peer]
 
     def broadcast(self, message):
-        for sock in self.peerList.values():
+        print(self.peerList.items())
+        for addr, sock in self.peerList.items():
             try:
                 print(sock.getpeername())
                 if type(message) == bytes:
                     sock.send(message)
                 elif type(message) == list:
                     for m in message:
-                        print(m, flush=True)
                         sock.send(m)
+                        
+                sock.close()
+                sock = -1
+                self.addPeer(addr, False)
             except ConnectionResetError:
                     print(f"Peer {sock.getpeername()} Disconnected", flush=True)
                     self.removePeer(sock.getpeername())
