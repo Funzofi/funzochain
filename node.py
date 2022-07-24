@@ -3,6 +3,7 @@ from gan import Gan
 from block import Block, LogBlock
 from p2p import p2pInterface
 from blockchain import Blockchain
+from gan import GAN
 import threading
 import sys
 
@@ -19,13 +20,15 @@ class node():
         if not self.gan.is_initialized():
             self.p2pInterface.sync_chain(self)
             block = LogBlock(self, "Initializing Gan")
-            self.p2pInterface.broadcast("blck:new".encode())
-            self.p2pInterface.broadcast(block.serialised)
-            self.gan.train(self.chain)
+            self.chain.append(block)
+            gan = GAN()
+            gan.initialize()
+            gan.feedData()
+            gan.train(self.chain)
+            gan.trainClassifier()
         
         block = LogBlock(self, "Gan initialized")
-        self.p2pInterface.broadcast("blck:new".encode())
-        self.p2pInterface.broadcast(block.serialised)
+        self.chain.append(block)
 
     @staticmethod
     def runtime(first_run=True):
