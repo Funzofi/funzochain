@@ -58,3 +58,11 @@ class Node():
         except KeyboardInterrupt as e:
             print("Shutting down")
             sys.exit(0)
+
+    def shutdown(self):
+        self.p2pInterface.listening = False
+        self.main_thread.terminate()
+
+    def restart(self):
+        self.shutdown()
+        self.run()
