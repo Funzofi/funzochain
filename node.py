@@ -3,7 +3,6 @@ from gan import Gan
 from block import Block, LogBlock
 from p2p import p2pInterface
 from blockchain import Blockchain
-from gan import GAN
 import threading
 import sys
 
