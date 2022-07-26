@@ -6,7 +6,7 @@ from blockchain import Blockchain
 import threading
 import sys
 
-class node():
+class Node():
     def __init__(self, private_key, host, name="chain"):
         self.host = host
         self.private_key = private_key

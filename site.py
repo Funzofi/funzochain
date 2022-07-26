@@ -1,10 +1,10 @@
-from node import node
+from node import Node
 import socket
 import Retica
 import Retica.Render
 import Retica.Sockets
 
-node = node("0x0", (socket.gethostname(),880), "test-one")
+node = Node("0x0", (socket.gethostname(),880), "test-one")
 
 def runtime(first_run):
     if first_run:
