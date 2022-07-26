@@ -108,3 +108,7 @@ class p2pInterface:
                 except ConnectionResetError:
                     print(f"Peer {sock.getpeername()} Disconnected", flush=True)
                     self.removePeer(sock.getpeername())
+    
+    def stop(self):
+        self.listening = False
+        self.open_port.close()
