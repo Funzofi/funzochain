@@ -36,10 +36,10 @@ class Node():
     def run(self):
         try:
             data_queue = Queue()
-            thread = threading.Thread(target=self.p2pInterface.listen, args=(data_queue,), daemon=True)
-            thread.start()
+            self.main_thread = threading.Thread(target=self.p2pInterface.listen, args=(data_queue,), daemon=True)
+            self.main_thread.start()
             first_run = True
-            while True:
+            while self.p2pInterface.listening:
                 self.runtime(self, first_run)
                 first_run = False
                 if data_queue.qsize() > 0:
