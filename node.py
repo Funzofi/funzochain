@@ -30,7 +30,7 @@ class Node():
         self.chain.append(block)
 
     @staticmethod
-    def runtime(first_run=True):
+    def runtime(self, first_run=True):
         pass
 
     def run(self):
@@ -40,7 +40,7 @@ class Node():
             thread.start()
             first_run = True
             while True:
-                self.runtime(first_run)
+                self.runtime(self, first_run)
                 first_run = False
                 if data_queue.qsize() > 0:
                     data_type, data = data_queue.get(timeout=1)
