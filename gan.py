@@ -50,13 +50,14 @@ class GAN(nn.Module):
     self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.learning_rate, weight_decay=1e-5)
 
   def feedData(self, chain):
-    input_ = []
-    output_ = []
-    for i in range(len(self.inp)):
+    print(chain)
+    input_ = [[0]*230 for element in range(512)]
+    output_ = [[0]*230 for element in range(512)]
+    for i in range(len(chain)):
       if len(input_) == 512:
         break
-      input_.append = self.encode(chain[i])
-      output_.append = self.encode(chain[i+1])
+      input_[i] = self.encode(chain[i].seed if chain[i].seed else [0]*230)
+      output_[i] = self.encode(chain[i+1].seed if chain[i+1].seed else [0]*230)
 
     self.inp=torch.tensor(input_,dtype=torch.float32)
     self.out=torch.tensor(output_,dtype=torch.float32)
