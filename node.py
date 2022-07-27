@@ -1,5 +1,5 @@
 from queue import Queue
-from gan import Gan
+from gan import GAN
 from block import Block, LogBlock
 from p2p import p2pInterface
 from blockchain import Blockchain
