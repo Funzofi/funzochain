@@ -13,17 +13,17 @@ class Node():
         self.address = private_key
         self.p2pInterface = p2pInterface(self)
         self.chain = Blockchain(self, name,self.p2pInterface)
+        self.initialize_gan()
 
     def initialize_gan(self):
-        self.gan = Gan(self.host, self.private_key)
-        if not self.gan.is_initialized():
-            self.p2pInterface.sync_chain(self)
+        self.gan = GAN()
+        if not False:
             block = LogBlock(self, "Initializing Gan")
             self.chain.append(block)
             gan = GAN()
             gan.initialize()
-            gan.feedData()
-            gan.train(self.chain)
+            gan.feedData(self.chain)
+            gan.train()
             gan.trainClassifier()
         
         block = LogBlock(self, "Gan initialized")
