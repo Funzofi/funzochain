@@ -90,6 +90,7 @@ class GAN(nn.Module):
   def train(self):
     epochs = 2000
     for epoch in range(epochs):
+      print("Epoch: ", epoch)
       output = self.model(self.inp)
       loss = self.criterion(output , self.out)
       self.optimizer.zero_grad()
