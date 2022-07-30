@@ -1,8 +1,9 @@
 from gan import Gan
 
 class GPoHC():
-    def __init__(self):
+    def __init__(self, node):
         self.strenght = 50
+        seld.node = node
         self.model = Gan()
 
     def create_consensus(self, block, chain):
