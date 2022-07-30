@@ -1,11 +1,7 @@
 import torch
 import torch.nn as nn
-import random
 import pandas as pd
-import string
-import rsa
 import textwrap
-from base64 import b64encode
 from sklearn.svm import SVC
 
 class GAN(nn.Module):
