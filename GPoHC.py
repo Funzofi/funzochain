@@ -23,7 +23,7 @@ class GPoHC():
 
         SEED_ROOT_PROCESSED = []
         for char in SEED_ROOT:
-            SEED_ROOT_PROCESSED.append([int(y) for y in list("".join(format(ord(x), 'b') for x in str(char)))])
+            SEED_ROOT_PROCESSED.extend([int(y) for y in list("".join(format(ord(x), 'b') for x in str(char)))])
 
         SUPER_SEED = self.model.generator_forward(SEED_ROOT_PROCESSED)
         self.broadcast_super_seed(SUPER_SEED)
