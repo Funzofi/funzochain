@@ -34,42 +34,42 @@ def parse_data(data):
         return None, None
 
 class connection_handler():
-    def req(self, peer):
+    def req(self, peer, node):
         addr_lenght = peer.recv(2)
         remote_host = peer.recv(int(addr_lenght)).decode().split(":")
         remote_host = (remote_host[0],int(remote_host[1]))
         self.addPeer(remote_host,False)
 
-    def ack(self, peer):
+    def ack(self, peer, node):
         peer.send(b"conn:ack")
 
-    def drp(self, peer):
+    def drp(self, peer, node):
         self.removePeer(peer.getpeername())
 
 class block_handler():
-    def new(self, peer):
+    def new(self, peer, node):
         data_lenght = peer.recv(5)
         data = peer.recv(int(data_lenght))
         return "blck", data
 
-    def req(self, peer):
+    def req(self, peer, node):
         pass
 
-    def ack(self, peer):
+    def ack(self, peer, node):
         pass
 
 class transaction_handler():
-    def new(self, peer):
+    def new(self, peer, node):
         pass
 
-    def req(self, peer):
+    def req(self, peer, node):
         pass
 
-    def ack(self, peer):
+    def ack(self, peer, node):
         pass
 
 class seed_handler():
-    def scr(self, peer):
+    def scr(self, peer, node):
         seed = peer.recv(512)
         peer.send(self.score_seed(seed))
 

@@ -102,7 +102,7 @@ class p2pInterface:
                     data = sock.recv(8)
                     if len(data) == 8:
                         class_, type_ = network_handler.parse_data(data)
-                        data = getattr(network_handler.handlers[class_],type_)(self, sock)
+                        data = getattr(network_handler.handlers[class_],type_)(self, sock, node)
                         if data:
                             queue.put(data)
                 except ConnectionResetError:
