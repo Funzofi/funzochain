@@ -71,10 +71,7 @@ class transaction_handler():
 class seed_handler():
     def scr(self, peer, node):
         seed = peer.recv(512)
-        peer.send(self.score_seed(seed))
-
-    def score_seed(self, seed):
-        return "0"
+        peer.send(node.gan.clf_score(seed))
 
 handlers = {
     "conn": connection_handler,
