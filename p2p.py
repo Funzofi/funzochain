@@ -31,7 +31,7 @@ class p2pInterface:
         self.peerList[peer].close()
         del self.peerList[peer]
 
-    def broadcast(self, message):
+    def broadcast(self, message, handler=None):
         print(self.peerList.items())
         for addr, sock in self.peerList.items():
             try:
@@ -41,7 +41,8 @@ class p2pInterface:
                 elif type(message) == list:
                     for m in message:
                         sock.send(m)
-                        
+                if handler:
+                    handler(sock)
                 sock.close()
                 sock = -1
                 self.addPeer(addr, False)
