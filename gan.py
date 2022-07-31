@@ -4,6 +4,8 @@ import pandas as pd
 import textwrap
 from sklearn.svm import SVC
 
+from imports import *
+
 class GAN(nn.Module):
     def __init__(self, name):
         super(GAN, self).__init__()
@@ -160,3 +162,20 @@ class GAN(nn.Module):
                     i[j]=40.
 
         return out_
+
+
+class MockGAN(object):
+	def __init__(self):
+		if not os.path.exists('mockgan'):
+			open("mockgan", "w").close()
+
+	def clf_score(self,data_):
+		return ord(data_[0])/1000
+
+	def generator_forward(self,data_):
+		import random, string
+		
+		pub, priv = rsa.newkeys(1024)
+		msg = ''.join(random.choices(string.ascii_uppercase + string.digits, k=117))
+
+		return [x for x in rsa.encrypt(msg.encode(), priv)]
