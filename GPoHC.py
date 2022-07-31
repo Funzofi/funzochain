@@ -59,4 +59,14 @@ class GPoHC():
         return score
 
     def score_super_seed(self, super_seed):
-        self.model.clf_score(super_seed)
+        scores = self.node.p2pInterface.broadcast([
+            b"seed:scr",
+            f'{len(super_seed):05d}'.encode(),
+            super_seed.encode()
+        ])
+
+        total_score = 0
+        for score in scores:
+            total_score += score[1]
+
+        return total_score, scores
