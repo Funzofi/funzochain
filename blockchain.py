@@ -16,6 +16,9 @@ class Blockchain(list):
 
     def append(self, item):
         if isinstance(item, Block):
+            item.seed, winner = self.node.consensus.create_consensus(item, self)
+            if not winner:
+                raise Exception("Consensus Lost. Failed To Add Block.")
             if item.hash in self.index:
                 raise ValueError("Block already exists")
             self.index[item.calculate_hash()] = len(self.chain)
