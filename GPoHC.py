@@ -2,7 +2,7 @@ from gan import GAN
 from block import Block, LogBlock
 
 class GPoHC():
-    def __init__(self, node):
+    def __init__(self, node, name):
         self.strenght = 50
         seld.node = node
         self.model = Gan()
