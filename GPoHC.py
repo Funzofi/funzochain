@@ -50,7 +50,6 @@ class GPoHC():
 
         return result
 
-
     def validator_online(self, block):
         pass
 
