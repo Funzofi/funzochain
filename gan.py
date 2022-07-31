@@ -5,7 +5,7 @@ import textwrap
 from sklearn.svm import SVC
 
 class GAN(nn.Module):
-  def __init__(self):
+  def __init__(self, name):
     super(GAN, self).__init__()
     inp=0
     out=0
@@ -33,6 +33,8 @@ class GAN(nn.Module):
       nn.Linear(64, 128),
       nn.ReLU(True),
       nn.Linear(128, 230))
+
+    self.name = name
     
   def initialize(self):
     self.inp=0

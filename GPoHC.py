@@ -4,8 +4,8 @@ from block import Block, LogBlock
 class GPoHC():
     def __init__(self, node, name):
         self.strenght = 50
-        self.model = Gan()
         self.node = node
+        self.model = GAN(name)
 
     def create_consensus(self, block, chain):
         hash = block.calculate_hash()
