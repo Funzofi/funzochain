@@ -6,6 +6,14 @@ class GPoHC():
         self.strenght = 50
         self.node = node
         self.model = GAN(name)
+        self.new = True
+        if self.new:
+            self.node.chain.append(LogBlock(self.node, "Initializing Gan"))
+            self.model.initialize()
+            self.model.feedData(self.chain)
+            self.model.train()
+            self.model.trainClassifier()
+        self.node.chain.append(LogBlock(self.node, "Gan initialized"))
 
     def create_consensus(self, block, chain):
         hash = block.calculate_hash()

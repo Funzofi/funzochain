@@ -13,21 +13,9 @@ class Node():
         self.address = private_key
         self.p2pInterface = p2pInterface(self)
         self.chain = Blockchain(self, name,self.p2pInterface)
-        self.initialize_gan()
 
-    def initialize_gan(self):
-        self.gan = GAN()
-        if not False:
-            block = LogBlock(self, "Initializing Gan")
-            self.chain.append(block)
-            gan = GAN()
-            gan.initialize()
-            gan.feedData(self.chain)
-            gan.train()
-            gan.trainClassifier()
-        
-        block = LogBlock(self, "Gan initialized")
-        self.chain.append(block)
+    def initialize_consensus(self, name):
+        self.consensus = GPoHC(self, name)
 
     @staticmethod
     def runtime(self, first_run=True):
