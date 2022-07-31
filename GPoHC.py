@@ -35,7 +35,14 @@ class GPoHC():
         SEED_ROOT_PROCESSED = self.preprocess_seed_root(SEED_ROOT)
 
         SUPER_SEED = self.model.generator_forward(SEED_ROOT_PROCESSED)
-        self.score_super_seed(SUPER_SEED)
+        
+        score, scores = self.score_super_seed(SUPER_SEED)
+        block.validators = scores
+
+        # Encrypt SUPER_SEED with private_key of node
+        SEED = rsa.encrypt(SUPER_SEED, self.node.private_key)
+
+        return SEED
 
     def preprocess_seed_root(self, seed_root):
         seed_root_processed = []
