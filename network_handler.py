@@ -72,6 +72,7 @@ class seed_handler():
     def scr(self, peer, node):
         seed = peer.recv(512)
         score = node.gan.clf_score(seed)
+        peer.send(f'{len(score):02d}'.encode())
         peer.send(score)
         self.seed_store[seed] = score
 
