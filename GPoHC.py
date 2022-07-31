@@ -35,7 +35,7 @@ class GPoHC():
         SEED_ROOT_PROCESSED = self.preprocess_seed_root(SEED_ROOT)
 
         SUPER_SEED = self.model.generator_forward(SEED_ROOT_PROCESSED)
-        
+
         score, scores = self.score_super_seed(SUPER_SEED)
         block.validators = scores
 
@@ -59,7 +59,12 @@ class GPoHC():
         return result
 
     def validator_online(self, block):
-        pass
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect(block.address)
+        sock.send(b"conn:ack")
+        if sock.recv(8) == b"conn:ack":
+            return True
+        return False
 
     def seed_score_broadcast_handler(self, sock, seed):
         score_len = int(sock.recv(2).decode())
