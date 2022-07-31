@@ -34,7 +34,7 @@ class GPoHC():
         SEED_ROOT_PROCESSED = self.preprocess_seed_root(SEED_ROOT)
 
         SUPER_SEED = self.model.generator_forward(SEED_ROOT_PROCESSED)
-        self.broadcast_super_seed(SUPER_SEED)
+        self.score_super_seed(SUPER_SEED)
 
     def preprocess_seed_root(self, seed_root):
         seed_root_processed = []
@@ -53,3 +53,6 @@ class GPoHC():
 
     def validator_online(self, block):
         pass
+
+    def score_super_seed(self, super_seed):
+        self.model.clf_score(super_seed)
