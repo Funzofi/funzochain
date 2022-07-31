@@ -33,6 +33,7 @@ class p2pInterface:
 
     def broadcast(self, message, handler=None, handler_args=None):
         print(self.peerList.items())
+        returns = []
         for addr, sock in self.peerList.items():
             try:
                 print(sock.getpeername())
@@ -42,7 +43,7 @@ class p2pInterface:
                     for m in message:
                         sock.send(m)
                 if handler:
-                    handler(sock, *handler_args)
+                    returns.append(handler(sock, *handler_args))
                 sock.close()
                 sock = -1
                 self.addPeer(addr, False)
@@ -52,6 +53,7 @@ class p2pInterface:
             except OSError:
                 print(f"Peer {sock.getpeername()} Disconnected", flush=True)
                 self.removePeer(sock.getpeername())
+        return returns if handler else None
 
     def sync_chain(self, node):
         shuffled_nodes = list(self.peerList.keys())
