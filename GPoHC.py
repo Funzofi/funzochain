@@ -1,4 +1,5 @@
-from gan import Gan
+from gan import GAN
+from block import Block, LogBlock
 
 class GPoHC():
     def __init__(self, node):
