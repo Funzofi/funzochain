@@ -1,5 +1,5 @@
 from imports import *
-from gan import GAN
+from gan import MockGAN as GAN
 from block import Block, LogBlock
 
 class GPoHC():
@@ -39,7 +39,6 @@ class GPoHC():
         score, scores = self.score_super_seed(SUPER_SEED)
         block.validators = scores
 
-        # Encrypt SUPER_SEED with private_key of node
         SEED = rsa.encrypt(SUPER_SEED, self.node.private_key)
 
         return SEED
