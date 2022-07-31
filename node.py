@@ -15,6 +15,7 @@ class Node():
         self.p2pInterface = p2pInterface(self)
         self.chain = Blockchain(self, name,self.p2pInterface)
         self.initialize_consensus(name)
+        self.seed_store = {}
 
     def initialize_consensus(self, name):
         self.consensus = GPoHC(self, name)
