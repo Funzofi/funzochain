@@ -3,6 +3,7 @@ from gan import GAN
 from block import Block, LogBlock
 from p2p import p2pInterface
 from blockchain import Blockchain
+from GPoHC import GPoHC
 import threading
 import sys
 
@@ -13,6 +14,7 @@ class Node():
         self.address = private_key
         self.p2pInterface = p2pInterface(self)
         self.chain = Blockchain(self, name,self.p2pInterface)
+        self.initialize_consensus(name)
 
     def initialize_consensus(self, name):
         self.consensus = GPoHC(self, name)
