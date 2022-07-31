@@ -1,3 +1,4 @@
+from imports import *
 from gan import GAN
 from block import Block, LogBlock
 
