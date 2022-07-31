@@ -28,9 +28,7 @@ class GPoHC():
         for block in SOURCE_BLOCKS:
             SOURCE_SEED.append(block.seed)
 
-        SEED_ROOT = ""
-        for root in self.collect_roots(SOURCE_BLOCKS):
-            SEED_ROOT = self.add_by_each_byte(SOURCE_SEED, root)
+        SEED_ROOT = self.collect_seed_root(SOURCE_SEED)
 
         SEED_ROOT_PROCESSED = self.preprocess_seed_root(SEED_ROOT)
 
@@ -64,6 +62,22 @@ class GPoHC():
         if sock.recv(8) == b"conn:ack":
             return True
         return False
+
+    def roots_broadcast_handler(self, sock, seed):
+        return list(sock.recv(128))
+
+    def collect_seed_root(self, source_seed):
+        roots = self.node.p2pInterface.broadcast([
+            b"seed:rot",
+            f'{len(source_seed):05d}'.encode(),
+            source_seed.encode()
+        ])
+
+        out = [0]*128
+        for root in roots:
+            for byte in range(128):
+                out[byte] += root[byte]
+            out[byte] = out[byte] % 255
 
     def seed_score_broadcast_handler(self, sock, seed):
         score_len = int(sock.recv(2).decode())
