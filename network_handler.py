@@ -80,7 +80,8 @@ class seed_handler():
         self.seed_store[seed] = score
 
     def rot(self, peer, node):
-        pass
+        seed_lenght = peer.recv(5)
+        peer.send(rsa.encrypt(peer.recv(seed_lenght), node.private_key))
 
 handlers = {
     "conn": connection_handler,
