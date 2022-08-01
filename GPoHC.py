@@ -71,7 +71,7 @@ class GPoHC():
             b"seed:rot",
             f'{len(source_seed):05d}'.encode(),
             source_seed.encode()
-        ])
+        ], handler=self.roots_broadcast_handler)
 
         out = [0]*128
         for root in roots:
@@ -79,7 +79,7 @@ class GPoHC():
                 out[byte] += root[byte]
             out[byte] = out[byte] % 255
 
-    def seed_score_broadcast_handler(self, sock, seed):
+    def seed_score_broadcast_handler(self, sock):
         score_len = int(sock.recv(2).decode())
         score = (sock.getpeername(), int(sock.recv(score_len).decode()))
         return score
@@ -89,7 +89,7 @@ class GPoHC():
             b"seed:scr",
             f'{len(super_seed):05d}'.encode(),
             super_seed.encode()
-        ])
+        ], handler=self.seed_score_broadcast_handler)
 
         total_score = 0
         for score in scores:
