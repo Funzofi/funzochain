@@ -21,7 +21,8 @@ comm_types = {
         "int",
     ],
     "seed": [
-        "scr"
+        "scr",
+        "rot",
     ]
 }
 
@@ -77,6 +78,9 @@ class seed_handler():
         peer.send(f'{len(score):02d}'.encode())
         peer.send(score)
         self.seed_store[seed] = score
+
+    def rot(self, peer, node):
+        pass
 
 handlers = {
     "conn": connection_handler,
