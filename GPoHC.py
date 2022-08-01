@@ -90,7 +90,7 @@ class GPoHC():
         scores = self.node.p2pInterface.broadcast([
             b"seed:scr",
             f'{len(super_seed):05d}'.encode(),
-            super_seed.encode()
+            bytes(super_seed)
         ], handler=self.seed_score_broadcast_handler)
 
         total_score = 0
