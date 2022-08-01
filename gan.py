@@ -165,7 +165,7 @@ class GAN(nn.Module):
 
 
 class MockGAN(object):
-	def __init__(self):
+	def __init__(self, name):
 		if not os.path.exists('mockgan'):
 			open("mockgan", "w").close()
 
