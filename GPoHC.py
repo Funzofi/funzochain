@@ -63,7 +63,7 @@ class GPoHC():
             return True
         return False
 
-    def roots_broadcast_handler(self, sock, seed):
+    def roots_broadcast_handler(self, sock):
         return list(sock.recv(128))
 
     def collect_seed_root(self, source_seed):
