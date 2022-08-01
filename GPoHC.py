@@ -83,7 +83,7 @@ class GPoHC():
 
     def seed_score_broadcast_handler(self, sock):
         score_len = int(sock.recv(2).decode())
-        score = (sock.getpeername(), int(sock.recv(score_len).decode()))
+        score = (sock.getpeername(), float(sock.recv(score_len).decode()))
         return score
 
     def score_super_seed(self, super_seed):
