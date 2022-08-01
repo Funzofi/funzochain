@@ -77,7 +77,7 @@ class seed_handler():
         score = node.consensus.model.clf_score(seed)
         peer.send(f'{len(score):02d}'.encode())
         peer.send(score)
-        self.seed_store[seed] = score
+        node.seed_store[seed] = score
 
     def rot(self, peer, node):
         seed_lenght = peer.recv(5)
