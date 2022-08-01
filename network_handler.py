@@ -86,5 +86,6 @@ class seed_handler():
 handlers = {
     "conn": connection_handler,
     "blck": block_handler,
-    "trnx": transaction_handler
+    "trnx": transaction_handler,
+    "seed": seed_handler,
 }
