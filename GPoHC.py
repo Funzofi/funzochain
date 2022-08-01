@@ -20,7 +20,7 @@ class GPoHC():
         hash = block.calculate_hash()
 
         SOURCE_BLOCKS = []
-        for validator_block in range(self.strenght):
+        for validator_block in range(min([self.strenght, len(chain)])):
             if self.validator_online(chain[validator_block]):
                 SOURCE_BLOCKS.append(validator_block)
 
