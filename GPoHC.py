@@ -37,7 +37,7 @@ class GPoHC():
         score, scores = self.score_super_seed(SUPER_SEED)
         block.validators = scores
 
-        SEED = rsa.encrypt(SUPER_SEED, self.node.private_key)
+        SEED = rsa.encrypt(bytes(SUPER_SEED[:117]), self.node.private_key)
 
         return SEED
 
