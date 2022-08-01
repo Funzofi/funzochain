@@ -182,7 +182,7 @@ class MockGAN(object):
 		pass
 
 	def clf_score(self,data_):
-		return ord(data_[0])/1000
+        return str(list(data_)[0]/1000).encode()
 
 	def generator_forward(self,data_):
 		import random, string
