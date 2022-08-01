@@ -79,6 +79,8 @@ class GPoHC():
                 out[byte] += root[byte]
             out[byte] = out[byte] % 255
 
+        return out
+
     def seed_score_broadcast_handler(self, sock):
         score_len = int(sock.recv(2).decode())
         score = (sock.getpeername(), int(sock.recv(score_len).decode()))
