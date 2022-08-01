@@ -13,12 +13,9 @@ class Node():
         self.private_key = private_key
         self.address = private_key
         self.p2pInterface = p2pInterface(self)
-        self.chain = Blockchain(self, name,self.p2pInterface)
-        self.initialize_consensus(name)
-        self.seed_store = {}
-
-    def initialize_consensus(self, name):
         self.consensus = GPoHC(self, name)
+        self.chain = Blockchain(self, name,self.p2pInterface)
+        self.seed_store = {}
 
     @staticmethod
     def runtime(self, first_run=True):
