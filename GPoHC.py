@@ -39,7 +39,7 @@ class GPoHC():
 
         SEED = rsa.encrypt(bytes(SUPER_SEED[:117]), self.node.private_key)
 
-        return SEED
+        return True, SEED
 
     def preprocess_seed_root(self, seed_root):
         seed_root_processed = []
