@@ -31,7 +31,7 @@ class p2pInterface:
         self.peerList[peer].close()
         del self.peerList[peer]
 
-    def broadcast(self, message, handler=None, handler_args=None):
+    def broadcast(self, message, handler=None, handler_args=[]):
         print(self.peerList.items())
         returns = []
         for addr, sock in self.peerList.items():
