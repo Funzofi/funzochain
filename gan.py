@@ -169,6 +169,18 @@ class MockGAN(object):
 		if not os.path.exists('mockgan'):
 			open("mockgan", "w").close()
 
+	def initialize(self):
+		pass
+
+	def feedData(self, chain):
+		pass
+
+	def train(self):
+		pass
+
+	def trainClassifier(self):
+		pass
+
 	def clf_score(self,data_):
 		return ord(data_[0])/1000
 
