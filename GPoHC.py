@@ -21,7 +21,7 @@ class GPoHC():
 
         SOURCE_BLOCKS = []
         for validator_block in range(self.strenght):
-            if self.validator_online(chain[-self.strenght[validator_block]]):
+            if self.validator_online(chain[validator_block]):
                 SOURCE_BLOCKS.append(validator_block)
 
         SOURCE_SEED = ""
