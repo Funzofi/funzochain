@@ -57,7 +57,7 @@ class GPoHC():
 
     def validator_online(self, block):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect(block.address)
+        sock.connect(block.creator)
         sock.send(b"conn:ack")
         if sock.recv(8) == b"conn:ack":
             return True
