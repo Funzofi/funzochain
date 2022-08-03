@@ -1,6 +1,5 @@
 from imports import *
 from gan import MockGAN as GAN
-from block import Block, LogBlock
 
 class GPoHC():
     def __init__(self, node, name):
