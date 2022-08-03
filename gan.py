@@ -83,7 +83,6 @@ class Generator(nn.Module):
 
 class Descriminator():
 	def __init__(self):
-		
 		self.new = False
 
 		try:
