@@ -74,7 +74,7 @@ class transaction_handler():
 class seed_handler():
     def scr(self, peer, node):
         seed = peer.recv(512)
-        score = node.consensus.model.clf_score(seed)
+        score = node.consensus.model.descriminator.score(seed)
         peer.send(f'{len(score):02d}'.encode())
         peer.send(score)
         node.seed_store[seed] = score
