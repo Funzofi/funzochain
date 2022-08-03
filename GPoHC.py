@@ -1,19 +1,21 @@
 from imports import *
-from gan import MockGAN as GAN
+import gan
 
 class GPoHC():
     def __init__(self, node, name):
         self.strenght = 50
         self.node = node
-        self.model = GAN(name)
+        self.model = object()
+        setattr(self.model, 'generator', gan.Generator())
+        setattr(self.model, 'discriminator', gan.Discriminator())
         self.new = True
 
     def initialize(self):
-        if self.new:
-            self.model.initialize()
-            self.model.feedData(self.node.chain)
-            self.model.train()
-            self.model.trainClassifier()
+        if self.model.generator.new == True:
+            self.model.generator.train(self.node.chain)
+
+        if self.model.discriminator.new == True:
+            self.model.discriminator.train(self.node.chain)
 
     def create_consensus(self, block, chain):
         hash = block.calculate_hash()
@@ -31,7 +33,7 @@ class GPoHC():
 
         SEED_ROOT_PROCESSED = self.preprocess_seed_root(SEED_ROOT)
 
-        SUPER_SEED = self.model.generator_forward(SEED_ROOT_PROCESSED)
+        SUPER_SEED = self.model.generator.gen(SEED_ROOT_PROCESSED)
 
         score, scores = self.score_super_seed(SUPER_SEED)
         block.validators = scores
