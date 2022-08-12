@@ -31,8 +31,6 @@ class GPoHC():
 
         SEED_ROOT = self.collect_seed_root(SOURCE_SEED)
 
-        SEED_ROOT_PROCESSED = self.preprocess_seed_root(SEED_ROOT)
-
         SUPER_SEED = self.generator.gen(SEED_ROOT)
 
         score, scores = self.score_super_seed(SUPER_SEED)
@@ -41,13 +39,6 @@ class GPoHC():
         SEED = rsa.encrypt(bytes(SUPER_SEED[:117]), self.node.private_key)
 
         return True, SEED
-
-    def preprocess_seed_root(self, seed_root):
-        seed_root_processed = []
-        for char in seed_root:
-            seed_root_processed.extend([int(y) for y in list("".join(format(ord(x), 'b') for x in str(char)))])
-        
-        return seed_root_processed
 
     def add_by_each_byte(self, a, b):
         result = ""
