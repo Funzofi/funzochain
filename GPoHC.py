@@ -6,16 +6,16 @@ class GPoHC():
         self.strenght = 50
         self.node = node
         self.model = object()
-        setattr(self.model, 'generator', gan.Generator())
-        setattr(self.model, 'discriminator', gan.Discriminator())
+        self.generator = gan.Generator()
+        self.discriminator = gan.Descriminator()
         self.new = True
 
     def initialize(self):
-        if self.model.generator.new == True:
-            self.model.generator.train(self.node.chain)
+        if self.generator.new == True:
+            self.generator.train(self.node.chain)
 
-        if self.model.discriminator.new == True:
-            self.model.discriminator.train(self.node.chain)
+        if self.discriminator.new == True:
+            self.discriminator.train(self.node.chain)
 
     def create_consensus(self, block, chain):
         hash = block.calculate_hash()
@@ -33,7 +33,7 @@ class GPoHC():
 
         SEED_ROOT_PROCESSED = self.preprocess_seed_root(SEED_ROOT)
 
-        SUPER_SEED = self.model.generator.gen(SEED_ROOT_PROCESSED)
+        SUPER_SEED = self.generator.gen(SEED_ROOT)
 
         score, scores = self.score_super_seed(SUPER_SEED)
         block.validators = scores
